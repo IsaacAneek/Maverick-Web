@@ -12,7 +12,7 @@
 
         <h1>Maverick</h1>
 
-        <form method="POST" action="/login">
+        <form method="POST" action="{{ route('register') }}">
             @csrf
 
             <label>Username</label>
@@ -21,25 +21,22 @@
             <label>Password</label>
             <input type="password" name="password">
 
-            <div class="row">
-                <label class="remember">
-                    <input type="checkbox" name="remember">
-                    Remember Me
-                </label>
+            <label>Confirm Password</label>
+            <input type="password" name="password_confirmation">
 
-                <a href="#">Forgot Password?</a>
-                <a href="{{ route('register') }}">Create an account</a>
-            </div>
-
-            @error('username')
-                <div class="error">{{ $message }}</div>
-            @enderror
+            @if ($errors->any())
+                <div class="error">{{ $errors->first() }}</div>
+            @endif
 
             <button type="submit">
-                Login
+                Register
             </button>
 
         </form>
+
+        <div class="row">
+            <a href="{{ route('login') }}">Back to Login</a>
+        </div>
 
     </div>
 

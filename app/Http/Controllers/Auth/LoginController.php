@@ -35,6 +35,10 @@ class LoginController extends Controller
             'username' => $user->username,
         ]);
 
+        $request->session()->regenerate();
+
+        // dd(session()->all());
+
         return redirect('/dashboard');
     }
 

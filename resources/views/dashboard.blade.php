@@ -12,39 +12,67 @@
         <h1>Maverick</h1>
 
         <div class="nav-controls">
-            <div class="search-group">
-                <input type="text" class="search-input" placeholder="Search tasks">
+            <form action="{{ route('dashboard.search') }}" method="GET">
+                <div class="search-group">
+                    <input type="text" class="search-input" name="search" placeholder="Search tasks">
 
-                <details class="dropdown">
-                    <summary class="nav-action">Filter</summary>
-                    <div class="dropdown-panel">
-                        <label for="time-range">Time Range</label>
-                        <input type="datetime-local" id="time-range" name="time_range">
+                    <button type="submit">Search</button>
 
-                        <label for="task-name">Task Name</label>
-                        <input type="text" id="task-name" name="task_name" placeholder="Task Name">
+                    <details class="dropdown">
+                        <summary class="nav-action">Filter</summary>
 
-                        <label for="task-type">Task Type</label>
-                        <input type="text" id="task-type" name="task_type" placeholder="Task Type">
-                    </div>
-                </details>
+                        <div class="dropdown-panel">
+                            <label for="time-range">Time Range</label>
+                            <input type="datetime-local" id="time-range" name="time_range">
 
-                <details class="dropdown">
-                    <summary class="nav-action">Sort</summary>
-                    <div class="dropdown-panel">
-                        <label class="checkbox-row"><input type="checkbox" name="sort_time" checked> Time</label>
-                        <label class="checkbox-row"><input type="checkbox" name="sort_name"> Name</label>
-                        <label class="checkbox-row"><input type="checkbox" name="sort_type"> Type</label>
-                    </div>
-                </details>
-            </div>
+                            <label for="task-name">Task Name</label>
+                            <input type="text" id="task-name" name="task_name" placeholder="Task Name">
+
+                            <label for="task-type">Task Type</label>
+                            <input type="text" id="task-type" name="task_type" placeholder="Task Type">
+                        </div>
+                    </details>
+
+                    <details class="dropdown">
+                        <summary class="nav-action">Sort</summary>
+
+                        <div class="dropdown-panel">
+                            <label class="checkbox-row">
+                                <input type="checkbox" name="sort[]" value="time" checked>
+                                Time
+                            </label>
+
+                            <label class="checkbox-row">
+                                <input type="checkbox" name="sort[]" value="name">
+                                Name
+                            </label>
+
+                            <label class="checkbox-row">
+                                <input type="checkbox" name="sort[]" value="type">
+                                Type
+                            </label>
+                        </div>
+                    </details>
+                </div>
+            </form>
         </div>
 
         <div>
-            <form action="actions.php" method="post">
-                <button name="action" value="notifications">Notifications</button>
-                <button name="action" value="help">Help</button>
-                <button name="action" value="settings">Settings</button>
+            <form action="{{ route('dashboard.action') }}" method="POST">
+                @csrf
+
+                <button type="submit" name="action" value="notifications">
+                    Notifications
+                </button>
+
+                <button type="submit" name="action" value="help">
+                    Help
+                </button>
+
+                <button type="submit" name="action" value="settings">
+                    Settings
+                </button>
+
                 @if(session()->has('username'))
                     <span class="profile-name">{{ session('username') }}</span>
                 @else

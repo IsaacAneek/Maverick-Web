@@ -1,0 +1,226 @@
+:root {
+  --bg: #000000;
+  --surface: #0e0e0e;
+  --surface-card: #161616;
+  --border: #2c2c2c;
+  --border-focus: #6b6b6b;
+
+  --button-focus: #333333;
+  
+  --text: #ffffff;
+  --text-muted: #888888;
+  --text-dimmed: #444444;
+  
+  --accent-bg: #ffffff;
+  --accent-text: #000000;
+  
+  --active-block-bg: #1c1c1c;
+  --active-block-border: #ffffff;
+  
+  --success: #ffffff;
+  --shadow: rgba(255, 255, 255, 0.05);
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+    font-size: 14px;
+    font-family: var(--font-sans);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text);
+    padding: 10px 15px;
+    transition: var(--transition);
+    gap: 12px;
+}
+
+.nav-controls {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.search-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: min(560px, 100%);
+}
+
+.search-input {
+    flex: 1;
+    min-width: 220px;
+    min-height: 30px;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown > summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.dropdown > summary::-webkit-details-marker {
+    display: none;
+}
+
+.nav-action {
+    display: inline-block;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    transition: var(--transition);
+}
+
+.nav-action:hover,
+.dropdown > summary:hover {
+    background-color: var(--button-focus);
+    border: 1px solid var(--active-block-border);
+    border-radius: 5px;
+    transform: translateY(-1px);
+}
+
+.dropdown-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 240px;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--surface-card);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    z-index: 20;
+}
+
+.dropdown[open] .dropdown-panel {
+    display: flex;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    border-right: 1px solid var(--border);
+    padding: 10px;
+    background-color: var(--surface);
+    transition: var(--transition);
+}
+
+.main {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    background-color: var(--bg);
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    border-right: 1px solid var(--border);
+    padding: 0px 10px;
+    background-color: var(--surface);
+    color: var(--text);
+    transition: var(--transition);
+}
+
+.column:last-child {
+    border-right: none;
+}
+
+.task-card {
+    border: 1px solid var(--border);
+    margin: 10px 0px;
+    padding: 12px;
+    background-color: var(--active-block-bg);
+    color: var(--text);
+    transition: var(--transition);
+}
+
+.task-card:hover {
+    border-color: var(--border-focus);
+}
+
+.space {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+button {
+    border: 1px solid var(--border);
+    margin: 5px 0px;
+    padding: 10px;
+    background-color: var(--active-block-bg);
+    border-radius: 5px;
+    color: var(--text);
+    transition: var(--transition);
+}
+
+button:hover {
+    border: 1px solid var(--active-block-border);
+    background-color: var(--button-focus);
+    color: var(--text);
+    border-radius: 5px;
+}
+
+
+.siderbar-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.siderbar-header-input {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+input {
+    padding: 5px;
+    border-radius: 5px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    border: 1px solid var(--border);
+
+
+}

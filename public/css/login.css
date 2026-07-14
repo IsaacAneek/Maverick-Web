@@ -123,23 +123,21 @@ a:hover {
 }
 
 button {
-    background: var(--accent-bg);
-    color: var(--accent-text);
-
-    border: none;
-
-    padding: 12px;
-
-    cursor: pointer;
-
-    transition: var(--transition);
-
+    border: 1px solid var(--border);
+    margin: 5px 0px;
+    padding: 10px;
+    background-color: var(--active-block-bg);
     border-radius: 5px;
+    color: var(--text);
+    transition: var(--transition);
 }
 
 button:hover {
-    background: var(--button-focus);
+    border: 1px solid var(--active-block-border);
+    background-color: var(--button-focus);
     color: var(--text);
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .error {

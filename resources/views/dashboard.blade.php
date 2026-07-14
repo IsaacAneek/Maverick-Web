@@ -75,8 +75,6 @@
 
                 @if(session()->has('username'))
                     <span class="profile-name">Profile Name : {{ session('username') }}</span>
-                @else
-                    <a href="{{ route('login') }}">Login</a>
                 @endif
 
                 <button type="submit" name="action" value="logout">Logout</button>

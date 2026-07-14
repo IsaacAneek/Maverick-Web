@@ -9,9 +9,18 @@ Route::get('/', function () {
     return view('login');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
-Route::get('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
-Route::post('/dashboard/action', [DashboardController::class, 'action'])->name('dashboard.action');
+Route::middleware('checkLogin')->group(function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'show'])
+        ->name('dashboard');
+
+    Route::get('/dashboard/search', [DashboardController::class, 'search'])
+        ->name('dashboard.search');
+
+    Route::post('/dashboard/action', [DashboardController::class, 'action'])
+        ->name('dashboard.action');
+
+});
 
 Route::get('/login', [LoginController::class, 'show'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);

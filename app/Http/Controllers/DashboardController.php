@@ -35,6 +35,13 @@ class DashboardController extends Controller
             case 'settings':
                 
                 break;
+
+            case 'logout':
+                $request->session()->flush();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return redirect()->route('login');
         }
 
         return redirect()->back();

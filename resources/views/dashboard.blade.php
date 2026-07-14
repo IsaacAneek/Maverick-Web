@@ -45,7 +45,11 @@
                 <button name="action" value="notifications">Notifications</button>
                 <button name="action" value="help">Help</button>
                 <button name="action" value="settings">Settings</button>
-                <button name="action" value="profile">Profile</button>
+                @if(session()->has('username'))
+                    <span class="profile-name">{{ session('username') }}</span>
+                @else
+                    <a href="{{ route('login') }}">Login</a>
+                @endif
             </form>
         </div>
     </div>

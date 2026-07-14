@@ -224,3 +224,22 @@ input {
 
 
 }
+
+.profile-name {
+    display: inline-block;
+    border: 1px solid var(--border);
+    margin: 5px 0;
+    padding: 10px 16px;
+    background-color: var(--active-block-bg);
+    border-radius: 5px;
+    color: var(--text);
+    transition: var(--transition);
+    user-select: none;
+}
+
+.profile-name:hover {
+    border: 1px solid var(--active-block-border);
+    background-color: var(--button-focus);
+    color: var(--text);
+    cursor: pointer;
+}

@@ -17,13 +17,11 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'user_id' => ['required', 'string', 'max:255', 'unique:users,user_id'],
             'username' => ['required', 'string', 'max:100', 'unique:users,username'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
         User::create([
-            'user_id'=> $data['user_id'],
             'username' => $data['username'],
             'password_hash' => Hash::make($data['password']),
         ]);

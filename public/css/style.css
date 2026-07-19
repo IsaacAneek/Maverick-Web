@@ -282,3 +282,16 @@ input {
     color: var(--text);
     font-weight: 500;
 }
+
+.holiday-alert{
+    margin:10px;
+    padding:12px;
+
+    border:1px solid #b4b4b4;
+    border-radius:6px;
+
+    background: #0e0e0e;
+
+
+    color:white;
+}

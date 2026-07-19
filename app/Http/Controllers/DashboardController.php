@@ -6,52 +6,39 @@ use Illuminate\Http\Request;
 use App\Models\KanbanTask;
 use App\Models\Space;
 use App\Models\KanbanBoard;
+use App\Services\HolidayService;
 
 class DashboardController extends Controller
 {
-
-    public function addTodo(Space $space)
+    public function addTodo(Request $request, Space $space)
     {
-        $board = $space->board;
-
-        KanbanTask::create([
-            'kanban_board_id' => $board->kanban_board_id,
-            'task_name' => 'New Task',
-            'column_name' => 'todo',
-            'position' => KanbanTask::where('kanban_board_id', $board->kanban_board_id)
-                ->where('column_name', 'todo')
-                ->count()
-        ]);
-
-        return back();
+        return $this->addTask($request, $space, 'todo');
     }
 
-    public function addOngoing(Space $space)
+    public function addOngoing(Request $request, Space $space)
     {
-        $board = $space->board;
-
-        KanbanTask::create([
-            'kanban_board_id' => $board->kanban_board_id,
-            'task_name' => 'New Task',
-            'column_name' => 'ongoing',
-            'position' => KanbanTask::where('kanban_board_id', $board->kanban_board_id)
-                ->where('column_name', 'ongoing')
-                ->count()
-        ]);
-
-        return back();
+        return $this->addTask($request, $space, 'ongoing');
     }
 
-    public function addDone(Space $space)
+    public function addDone(Request $request, Space $space)
     {
+        return $this->addTask($request, $space, 'done');
+    }
+
+    private function addTask(Request $request, Space $space, string $column)
+    {
+        $request->validate([
+            'task_name' => 'required|max:255'
+        ]);
+
         $board = $space->board;
 
         KanbanTask::create([
             'kanban_board_id' => $board->kanban_board_id,
-            'task_name' => 'New Task',
-            'column_name' => 'done',
+            'task_name' => $request->task_name,
+            'column_name' => $column,
             'position' => KanbanTask::where('kanban_board_id', $board->kanban_board_id)
-                ->where('column_name', 'done')
+                ->where('column_name', $column)
                 ->count()
         ]);
 
@@ -99,7 +86,7 @@ class DashboardController extends Controller
         return back();
     }
 
-    public function show(Space $space)
+    public function show(Space $space, HolidayService $holidayService)
     {
         if ($space->username !== session('username')) {
             abort(403);
@@ -122,6 +109,8 @@ class DashboardController extends Controller
             'doneTasks' => $board
                 ? $board->tasks()->where('column_name', 'done')->orderBy('position')->get()
                 : collect(),
+
+            'holiday' => $holidayService->getNextHoliday(),
         ]);
     }
 
@@ -165,18 +154,6 @@ class DashboardController extends Controller
     public function action(Request $request)
     {
         switch ($request->action) {
-            case 'notifications':
-
-                break;
-
-            case 'help':
-
-                break;
-
-            case 'settings':
-
-                break;
-
             case 'logout':
                 $request->session()->flush();
                 $request->session()->invalidate();
@@ -185,6 +162,6 @@ class DashboardController extends Controller
                 return redirect()->route('login');
         }
 
-        return redirect()->back();
+        return back();
     }
 }

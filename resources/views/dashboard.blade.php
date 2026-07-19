@@ -82,6 +82,17 @@
         </div>
     </div>
 
+    @if($holiday)
+        <div class="holiday-alert">
+            Next Public Holiday:
+            <strong>{{ $holiday['name'] }}</strong>
+            ({{ $holiday['localName'] }})<br>
+
+            {{ $holiday['date'] }}
+            • {{ $holiday['days_left'] }} day(s) remaining
+        </div>
+    @endif
+
     <div class="content">
 
         <div class="sidebar">
@@ -129,7 +140,12 @@
 
                 <form action="{{ route('todo.add', $selectedSpace->space_id) }}" method="POST">
                     @csrf
-                    <button>Add Row</button>
+
+                    <input type="text" name="task_name" placeholder="Task Name" required>
+
+                    <button type="submit">
+                        Add Row
+                    </button>
                 </form>
 
                 <div class="rows">
@@ -146,20 +162,25 @@
             <div class="column">
                 <h2>In Progress</h2>
 
-                    <form action="{{ route('ongoing.add', $selectedSpace->space_id) }}" method="POST">
-                        @csrf
-                        <button>Add Row</button>
-                    </form>
+                <form action="{{ route('ongoing.add', $selectedSpace->space_id) }}" method="POST">
+                    @csrf
 
-                    <div class="rows">
+                    <input type="text" name="task_name" placeholder="Task Name" required>
 
-                        @foreach($ongoingTasks as $task)
+                    <button type="submit">
+                        Add Row
+                    </button>
+                </form>
 
-                            <x-task-card :task="$task" />
+                <div class="rows">
 
-                        @endforeach
+                    @foreach($ongoingTasks as $task)
 
-                    </div>
+                        <x-task-card :task="$task" />
+
+                    @endforeach
+
+                </div>
             </div>
 
             <div class="column">
@@ -167,7 +188,12 @@
 
                 <form action="{{ route('done.add', $selectedSpace->space_id) }}" method="POST">
                     @csrf
-                    <button>Add Row</button>
+
+                    <input type="text" name="task_name" placeholder="Task Name" required>
+
+                    <button type="submit">
+                        Add Row
+                    </button>
                 </form>
 
                 <div class="rows">

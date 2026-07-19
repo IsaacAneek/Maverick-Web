@@ -109,23 +109,16 @@
             </form>
 
             <div class="space">
-
                 @foreach($spaces as $space)
 
-                    <form action="{{ route('space.select', $space->space_id) }}" method="POST">
+                    <a href="{{ route('dashboard', $space->space_id) }}"
+                        class="space-button {{ optional($selectedSpace)->space_id == $space->space_id ? 'selected-space' : '' }}">
 
-                        @csrf
+                        {{ $space->space_name }}
 
-                        <button class="{{ $selectedSpace == $space->space_id ? 'selected-space' : '' }}" type="submit">
-
-                            {{ $space->space_name }}
-
-                        </button>
-
-                    </form>
+                    </a>
 
                 @endforeach
-
             </div>
         </div>
 

@@ -243,3 +243,42 @@ input {
     color: var(--text);
     cursor: pointer;
 }
+
+
+.space {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 5px;
+}
+
+.space-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+
+    text-decoration: none;
+    text-align: center;
+
+    border: 1px solid var(--border);
+    padding: 10px;
+    border-radius: 5px;
+
+    background-color: var(--active-block-bg);
+    color: var(--text);
+
+    transition: var(--transition);
+}
+
+.space-button:hover {
+    border: 1px solid var(--active-block-border);
+    background-color: var(--button-focus);
+    color: var(--text);
+}
+
+.space-button.selected-space {
+    border: 1px solid var(--active-block-border);
+    background-color: var(--button-focus);
+    color: var(--text);
+    font-weight: 500;
+}

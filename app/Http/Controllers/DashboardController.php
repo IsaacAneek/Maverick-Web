@@ -9,25 +9,30 @@ use App\Models\KanbanBoard;
 
 class DashboardController extends Controller
 {
-    public function show()
+    public function show(Space $space)
     {
+        if ($space->username !== session('username')) {
+            abort(403);
+        }
+
+        $board = $space->board;
+
         return view('dashboard', [
             'spaces' => $this->getSpaces(),
-            'selectedSpace' => session('selected_space')
+            'selectedSpace' => $space,
+
+            'todoTasks' => $board
+                ? $board->tasks()->where('column_name', 'todo')->orderBy('position')->get()
+                : collect(),
+
+            'ongoingTasks' => $board
+                ? $board->tasks()->where('column_name', 'ongoing')->orderBy('position')->get()
+                : collect(),
+
+            'doneTasks' => $board
+                ? $board->tasks()->where('column_name', 'done')->orderBy('position')->get()
+                : collect(),
         ]);
-    }
-
-    public function selectSpace($id)
-    {
-        $space = Space::where('space_id', $id)
-            ->where('username', session('username'))
-            ->firstOrFail();
-
-        session([
-            'selected_space' => $space->space_id
-        ]);
-
-        return redirect()->back();
     }
 
     public function addSpace(Request $request)
@@ -46,11 +51,7 @@ class DashboardController extends Controller
             'board_name' => 'Kanban Board'
         ]);
 
-        session([
-            'selected_space' => $space->space_id
-        ]);
-
-        return redirect()->back();
+        return redirect()->route('dashboard', $space->space_id);
     }
 
     public function search(Request $request)

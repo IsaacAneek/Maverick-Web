@@ -69,6 +69,21 @@ class DashboardController extends Controller
         return back();
     }
 
+    public function updateTask(Request $request, KanbanTask $task)
+    {
+        $request->validate([
+            'task_name' => 'required|max:255',
+            'deadline' => 'nullable|date'
+        ]);
+
+        $task->update([
+            'task_name' => $request->task_name,
+            'deadline' => $request->deadline
+        ]);
+
+        return back();
+    }
+
     public function moveTaskLeft(KanbanTask $task)
     {
         switch ($task->column_name) {
@@ -138,15 +153,108 @@ class DashboardController extends Controller
         );
     }
 
-    public function search(Request $request)
+    public function search(Request $request, Space $space)
     {
-        $search = $request->search;
-        $timeRange = $request->time_range;
-        $taskName = $request->task_name;
-        $taskType = $request->task_type;
-        $sort = $request->sort;
+        if ($space->username !== session('username')) {
+            abort(403);
+        }
 
-        return view('dashboard');
+        $board = $space->board;
+
+        $query = KanbanTask::where(
+            'kanban_board_id',
+            $board->kanban_board_id
+        );
+
+        if ($request->filled('search')) {
+
+            $query->where(
+                'task_name',
+                'like',
+                '%' . $request->search . '%'
+            );
+
+        }
+
+        if ($request->filled('task_name')) {
+
+            $query->where(
+                'task_name',
+                'like',
+                '%' . $request->task_name . '%'
+            );
+
+        }
+
+        if ($request->filled('task_type')) {
+
+            $query->where(
+                'column_name',
+                $request->task_type
+            );
+
+        }
+
+        if ($request->filled('from')) {
+
+            $query->where(
+                'created_at',
+                '>=',
+                $request->from
+            );
+
+        }
+
+        if ($request->filled('to')) {
+
+            $query->where(
+                'created_at',
+                '<=',
+                $request->to
+            );
+
+        }
+
+        if ($request->filled('sort')) {
+
+            $allowed = [
+                'created_at',
+                'updated_at',
+                'deadline',
+                'task_name'
+            ];
+
+            if (in_array($request->sort, $allowed)) {
+
+                $query->orderBy($request->sort);
+
+            }
+
+        }
+        else {
+
+            $query->orderBy('position');
+
+        }
+
+        $tasks = $query->get();
+
+        return view('dashboard', [
+
+            'spaces' => $this->getSpaces(),
+
+            'selectedSpace' => $space,
+
+            'todoTasks' =>
+                $tasks->where('column_name','todo'),
+
+            'ongoingTasks' =>
+                $tasks->where('column_name','ongoing'),
+
+            'doneTasks' =>
+                $tasks->where('column_name','done'),
+
+        ]);
     }
 
     private function getSpaces()

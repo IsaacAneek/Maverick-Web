@@ -31,8 +31,6 @@ Route::middleware('checkLogin')->group(function () {
 
     Route::get('/dashboard/spaces/{space}', [DashboardController::class, 'show'])->name('dashboard');
 
-    Route::get('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
-
     Route::post('/dashboard/action', [DashboardController::class, 'action'])->name('dashboard.action');
 
     Route::post('/space/add', [DashboardController::class, 'addSpace'])->name('space.add');
@@ -55,6 +53,16 @@ Route::middleware('checkLogin')->group(function () {
     Route::get('/api/holiday', [DashboardController::class, 'holiday'])
     ->middleware('checkLogin')
     ->name('api.holiday');
+
+    Route::put(
+    '/task/{task}',
+    [DashboardController::class, 'updateTask']
+    )->name('task.update');
+
+    Route::get(
+    '/dashboard/spaces/{space}/search',
+    [DashboardController::class, 'search']
+    )->name('dashboard.search');
 
 });
 

@@ -1,37 +1,43 @@
 <div class="task-card">
 
-    <h3>{{ $task->task_name }}</h3>
+    <!-- Update form -->
+    <form action="{{ route('task.update', $task) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    <p>
-        Created:
-        {{ $task->created_at->format('d M Y H:i') }}
-    </p>
+        <p>Task Name : </p>
+        <input type="text" name="task_name" value="{{ $task->task_name }}">
 
-    <p>
-        Updated:
-        {{ $task->updated_at->format('d M Y H:i') }}
-    </p>
+        <p>Deadline : </p>
+        <input
+            type="datetime-local"
+            name="deadline"
+            value="{{ optional($task->deadline)->format('Y-m-d\TH:i') }}"
+        >
+
+        <p></p>
+        <button type="submit">Update</button>
+    </form>
 
     <div class="task-actions">
 
         @if($task->column_name != 'todo')
-        <form action="{{ route('task.moveLeft',$task->kanban_task_id) }}" method="POST">
-            @csrf
-            <button>←</button>
-        </form>
+            <form action="{{ route('task.moveLeft',$task) }}" method="POST">
+                @csrf
+                <button>←</button>
+            </form>
         @endif
 
         @if($task->column_name != 'done')
-        <form action="{{ route('task.moveRight',$task->kanban_task_id) }}" method="POST">
-            @csrf
-            <button>→</button>
-        </form>
+            <form action="{{ route('task.moveRight',$task) }}" method="POST">
+                @csrf
+                <button>→</button>
+            </form>
         @endif
 
-        <form action="{{ route('task.delete',$task->kanban_task_id) }}" method="POST">
+        <form action="{{ route('task.delete',$task) }}" method="POST">
             @csrf
             @method('DELETE')
-
             <button>Remove</button>
         </form>
 

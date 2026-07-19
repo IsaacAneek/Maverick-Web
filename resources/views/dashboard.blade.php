@@ -35,9 +35,9 @@
         <h1>Maverick</h1>
 
         <div class="nav-controls">
-            <form action="{{ route('dashboard.search') }}" method="GET">
+            <form action="{{ route('dashboard.search', $selectedSpace) }}" method="GET">
                 <div class="search-group">
-                    <input type="text" class="search-input" name="search" placeholder="Search tasks">
+                    <input type="text" class="search-input" name="search" value="{{ request('search') }}" placeholder="Search tasks">
 
                     <button type="submit">Search</button>
 
@@ -45,14 +45,23 @@
                         <summary class="nav-action">Filter</summary>
 
                         <div class="dropdown-panel">
-                            <label for="time-range">Time Range</label>
-                            <input type="datetime-local" id="time-range" name="time_range">
 
-                            <label for="task-name">Task Name</label>
-                            <input type="text" id="task-name" name="task_name" placeholder="Task Name">
+                            <label>From</label>
+                            <input type="datetime-local" name="from" value="{{ request('from') }}">
 
-                            <label for="task-type">Task Type</label>
-                            <input type="text" id="task-type" name="task_type" placeholder="Task Type">
+                            <label>To</label>
+                            <input type="datetime-local" name="to" value="{{ request('to') }}">
+                            <label>Task Name</label>
+                            <input type="text" name="task_name" value="{{ request('task_name') }}">
+
+                            <label>Task Type</label>
+                            <select name="task_type">
+                                <option value="">All</option>
+                                <option value="todo">Todo</option>
+                                <option value="ongoing">OnGoing</option>
+                                <option value="done">Done</option>
+                            </select>
+
                         </div>
                     </details>
 
@@ -60,20 +69,29 @@
                         <summary class="nav-action">Sort</summary>
 
                         <div class="dropdown-panel">
-                            <label class="checkbox-row">
-                                <input type="checkbox" name="sort[]" value="time" checked>
-                                Time
-                            </label>
 
-                            <label class="checkbox-row">
-                                <input type="checkbox" name="sort[]" value="name">
-                                Name
-                            </label>
+                            <select name="sort">
 
-                            <label class="checkbox-row">
-                                <input type="checkbox" name="sort[]" value="type">
-                                Type
-                            </label>
+                                <option value="">None</option>
+
+                                <option value="created_at">
+                                    Created At
+                                </option>
+
+                                <option value="updated_at">
+                                    Updated At
+                                </option>
+
+                                <option value="deadline">
+                                    Deadline
+                                </option>
+
+                                <option value="task_name">
+                                    Name
+                                </option>
+
+                            </select>
+
                         </div>
                     </details>
                 </div>

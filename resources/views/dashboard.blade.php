@@ -102,18 +102,6 @@
             <form action="{{ route('dashboard.action') }}" method="POST">
                 @csrf
 
-                <button type="submit" name="action" value="notifications">
-                    Notifications
-                </button>
-
-                <button type="submit" name="action" value="help">
-                    Help
-                </button>
-
-                <button type="submit" name="action" value="settings">
-                    Settings
-                </button>
-
                 @if(session()->has('username'))
                     <span class="profile-name">Profile Name : {{ session('username') }}</span>
                 @endif

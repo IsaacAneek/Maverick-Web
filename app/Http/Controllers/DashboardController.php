@@ -86,7 +86,7 @@ class DashboardController extends Controller
         return back();
     }
 
-    public function show(Space $space, HolidayService $holidayService)
+    public function show(Space $space)
     {
         if ($space->username !== session('username')) {
             abort(403);
@@ -109,8 +109,6 @@ class DashboardController extends Controller
             'doneTasks' => $board
                 ? $board->tasks()->where('column_name', 'done')->orderBy('position')->get()
                 : collect(),
-
-            'holiday' => $holidayService->getNextHoliday(),
         ]);
     }
 
@@ -131,6 +129,13 @@ class DashboardController extends Controller
         ]);
 
         return redirect()->route('dashboard', $space->space_id);
+    }
+
+    public function holiday(HolidayService $holidayService)
+    {
+        return response()->json(
+            $holidayService->getNextHoliday()
+        );
     }
 
     public function search(Request $request)

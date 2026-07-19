@@ -6,6 +6,29 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        fetch("{{ route('api.holiday') }}")
+            .then(response => response.json())
+            .then(data => {
+
+                if (!data) return;
+
+                document.getElementById("holiday-alert").innerHTML = `
+                    <div class="holiday-alert">
+                        <strong>Next Public Holiday</strong><br>
+                        ${data.name} (${data.localName})<br>
+                        ${data.date} • ${data.days_left} day(s) remaining
+                    </div>
+                `;
+
+            })
+            .catch(error => console.error(error));
+
+    });
+</script>
+
 <body>
 
     <div class="navbar">
@@ -82,16 +105,7 @@
         </div>
     </div>
 
-    @if($holiday)
-        <div class="holiday-alert">
-            Next Public Holiday:
-            <strong>{{ $holiday['name'] }}</strong>
-            ({{ $holiday['localName'] }})<br>
-
-            {{ $holiday['date'] }}
-            • {{ $holiday['days_left'] }} day(s) remaining
-        </div>
-    @endif
+    <div id="holiday-alert"></div>
 
     <div class="content">
 

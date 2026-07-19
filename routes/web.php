@@ -52,6 +52,10 @@ Route::middleware('checkLogin')->group(function () {
     Route::delete('/task/{task}', [DashboardController::class, 'deleteTask'])
     ->name('task.delete');
 
+    Route::get('/api/holiday', [DashboardController::class, 'holiday'])
+    ->middleware('checkLogin')
+    ->name('api.holiday');
+
 });
 
 Route::get('/login', [LoginController::class, 'show'])->name('login');

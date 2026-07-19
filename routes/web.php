@@ -11,14 +11,15 @@ Route::get('/', function () {
 
 Route::middleware('checkLogin')->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'show'])
-        ->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
 
-    Route::get('/dashboard/search', [DashboardController::class, 'search'])
-        ->name('dashboard.search');
+    Route::get('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
 
-    Route::post('/dashboard/action', [DashboardController::class, 'action'])
-        ->name('dashboard.action');
+    Route::post('/dashboard/action', [DashboardController::class, 'action'])->name('dashboard.action');
+
+    Route::post('/space/add',[DashboardController::class,'addSpace'])->name('space.add');
+
+    Route::post('/space/{id}/select',[DashboardController::class,'selectSpace'])->name('space.select');
 
 });
 

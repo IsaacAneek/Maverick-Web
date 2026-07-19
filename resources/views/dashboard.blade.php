@@ -85,23 +85,48 @@
     <div class="content">
 
         <div class="sidebar">
-            <form action="actions.php" method="post">
-                <div>
-                    <div class="siderbar-header">
-                        <div class="siderbar-header-buttons">
-                            <button name="action">Spaces</button>
-                            <button name="action" value="add_space">Add New Space</button>
-                        </div>
-                        <div class="siderbar-header-input">
-                            <input type="text" name="space_name" placeholder="New Space Name" required>
-                        </div>
-                    </div>
+            <form action="{{ route('space.add') }}" method="POST">
+                @csrf
 
-                    <div class="space">
+                <div class="sidebar-header">
+
+                    <div class="sidebar-header-buttons">
+
+                        <button type="submit">
+                            Add Space
+                        </button>
 
                     </div>
+
+                    <div class="sidebar-header-input">
+
+                        <input type="text" name="space_name" placeholder="New Space Name" required>
+
+                    </div>
+
                 </div>
+
             </form>
+
+            <div class="space">
+
+                @foreach($spaces as $space)
+
+                    <form action="{{ route('space.select', $space->space_id) }}" method="POST">
+
+                        @csrf
+
+                        <button class="{{ $selectedSpace == $space->space_id ? 'selected-space' : '' }}" type="submit">
+
+                            {{ $space->space_name }}
+
+                        </button>
+
+                    </form>
+
+                @endforeach
+
+            </div>
         </div>
 
         <div class="main">

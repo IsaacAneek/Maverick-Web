@@ -3,12 +3,102 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\KanbanTask;
 use App\Models\Space;
 use App\Models\KanbanBoard;
 
 class DashboardController extends Controller
 {
+
+    public function addTodo(Space $space)
+    {
+        $board = $space->board;
+
+        KanbanTask::create([
+            'kanban_board_id' => $board->kanban_board_id,
+            'task_name' => 'New Task',
+            'column_name' => 'todo',
+            'position' => KanbanTask::where('kanban_board_id', $board->kanban_board_id)
+                ->where('column_name', 'todo')
+                ->count()
+        ]);
+
+        return back();
+    }
+
+    public function addOngoing(Space $space)
+    {
+        $board = $space->board;
+
+        KanbanTask::create([
+            'kanban_board_id' => $board->kanban_board_id,
+            'task_name' => 'New Task',
+            'column_name' => 'ongoing',
+            'position' => KanbanTask::where('kanban_board_id', $board->kanban_board_id)
+                ->where('column_name', 'ongoing')
+                ->count()
+        ]);
+
+        return back();
+    }
+
+    public function addDone(Space $space)
+    {
+        $board = $space->board;
+
+        KanbanTask::create([
+            'kanban_board_id' => $board->kanban_board_id,
+            'task_name' => 'New Task',
+            'column_name' => 'done',
+            'position' => KanbanTask::where('kanban_board_id', $board->kanban_board_id)
+                ->where('column_name', 'done')
+                ->count()
+        ]);
+
+        return back();
+    }
+
+    public function deleteTask(KanbanTask $task)
+    {
+        $task->delete();
+
+        return back();
+    }
+
+    public function moveTaskRight(KanbanTask $task)
+    {
+        switch ($task->column_name) {
+            case 'todo':
+                $task->column_name = 'ongoing';
+                break;
+
+            case 'ongoing':
+                $task->column_name = 'done';
+                break;
+        }
+
+        $task->save();
+
+        return back();
+    }
+
+    public function moveTaskLeft(KanbanTask $task)
+    {
+        switch ($task->column_name) {
+            case 'ongoing':
+                $task->column_name = 'todo';
+                break;
+
+            case 'done':
+                $task->column_name = 'ongoing';
+                break;
+        }
+
+        $task->save();
+
+        return back();
+    }
+
     public function show(Space $space)
     {
         if ($space->username !== session('username')) {

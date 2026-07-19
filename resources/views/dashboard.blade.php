@@ -127,13 +127,18 @@
             <div class="column">
                 <h2>Todo</h2>
 
-                <form action="actions.php" method="post">
-                    <button name="action" value="add_todo">
-                        Add Row
-                    </button>
+                <form action="{{ route('todo.add', $selectedSpace->space_id) }}" method="POST">
+                    @csrf
+                    <button>Add Row</button>
                 </form>
 
                 <div class="rows">
+
+                    @foreach($todoTasks as $task)
+
+                        <x-task-card :task="$task" />
+
+                    @endforeach
 
                 </div>
             </div>
@@ -141,25 +146,39 @@
             <div class="column">
                 <h2>In Progress</h2>
 
-                <form action="actions.php" method="post">
-                    <button name="action" value="add_progress">
-                        Add Row
-                    </button>
-                </form>
+                    <form action="{{ route('ongoing.add', $selectedSpace->space_id) }}" method="POST">
+                        @csrf
+                        <button>Add Row</button>
+                    </form>
 
-                <div class="rows"></div>
+                    <div class="rows">
+
+                        @foreach($ongoingTasks as $task)
+
+                            <x-task-card :task="$task" />
+
+                        @endforeach
+
+                    </div>
             </div>
 
             <div class="column">
                 <h2>Done</h2>
 
-                <form action="actions.php" method="post">
-                    <button name="action" value="add_done">
-                        Add Row
-                    </button>
+                <form action="{{ route('done.add', $selectedSpace->space_id) }}" method="POST">
+                    @csrf
+                    <button>Add Row</button>
                 </form>
 
-                <div class="rows"></div>
+                <div class="rows">
+
+                    @foreach($doneTasks as $task)
+
+                        <x-task-card :task="$task" />
+
+                    @endforeach
+
+                </div>
             </div>
 
         </div>
